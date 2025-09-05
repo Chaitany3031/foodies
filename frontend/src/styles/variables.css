@@ -1,0 +1,43 @@
+:root {
+  /* Base colors (Light) */
+  --bg: #f7f7f8;
+  --text: #111827;
+  --muted: #6b7280;
+  --card: #ffffff;
+  --primary: #2563eb;
+  --primary-contrast: #ffffff;
+  --border: #e5e7eb;
+  --input: #f3f4f6;
+  --ring: rgba(37, 99, 235, 0.35);
+  --shadow: 0 10px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* Dark mode via attribute */
+[data-theme="dark"] {
+  --bg: #0b0e14;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --card: #111827;
+  --primary: #60a5fa;
+  --primary-contrast: #111827;
+  --border: #1f2937;
+  --input: #0f172a;
+  --ring: rgba(96, 165, 250, 0.35);
+  --shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Prefer system theme automatically */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0e14;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --card: #111827;
+    --primary: #60a5fa;
+    --primary-contrast: #111827;
+    --border: #1f2937;
+    --input: #0f172a;
+    --ring: rgba(96, 165, 250, 0.35);
+    --shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  }
+}
