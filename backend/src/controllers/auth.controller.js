@@ -28,6 +28,7 @@ async function registerController(req, res) {
   res.cookie("token", token);
   res.status(201).json({
     message: "User registered",
+    token,
     user: {
       _id: user._id,
       email: user.email,
@@ -63,9 +64,9 @@ async function loginController(req, res) {
     process.env.JWT_SECRET
   );
   res.cookie("token", token);
-
   res.status(200).json({
     message: "Logged in",
+    token,
     user: {
       _id: user._id,
       email: user.email,
@@ -141,9 +142,9 @@ async function loginFoodPartnerController(req, res) {
     process.env.JWT_SECRET
   );
   res.cookie("token", token);
-
   res.status(200).json({
     message: "Logged in",
+    token,
     user: {
       _id: user._id,
       email: user.email,

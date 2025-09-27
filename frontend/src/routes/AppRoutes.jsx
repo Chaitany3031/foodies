@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom'
 import '../styles/auth.css'
 import api from '../api/client'
+import Home from '../general/Home'
+import CreateFood from '../food-partner/CreateFood'
 
 const AuthLayout = ({ title, subtitle, children }) => {
   return (
@@ -36,8 +38,13 @@ const UserRegister = () => {
     }
     try {
       setLoading(true)
-      await api.post('/api/auth/user/register', form)
-      navigate('/user/login')
+      const res = await api.post('/api/auth/user/register', form)
+      if (res.data?.token) {
+        localStorage.setItem('token', res.data.token)
+        navigate('/home')
+      } else {
+        navigate('/user/login')
+      }
     } catch (err) {
       setError(err?.response?.data?.message || 'Registration failed')
     } finally {
@@ -85,10 +92,16 @@ const UserLogin = () => {
       setError('Email and password are required')
       return
     }
+    console.log('Submitting:', form) // Add this line
     try {
       setLoading(true)
-      await api.post('/api/auth/user/login', form)
-      navigate('/foodPartner/login') // navigate to a different page or dashboard; adjust as needed
+      const res = await api.post('/api/auth/user/login', form)
+      if (res.data?.token) {
+        localStorage.setItem('token', res.data.token)
+        navigate('/home')
+      } else {
+        setError('Login failed')
+      }
     } catch (err) {
       setError(err?.response?.data?.message || 'Login failed')
     } finally {
@@ -134,8 +147,13 @@ const FoodPartnerRegister = () => {
     }
     try {
       setLoading(true)
-      await api.post('/api/auth/foodpartner/register', form)
-      navigate('/foodPartner/login')
+      const res = await api.post('/api/auth/foodpartner/register', form)
+      if (res.data?.token) {
+        localStorage.setItem('token', res.data.token)
+        navigate('/foodPartner/create')
+      } else {
+        navigate('/foodPartner/login')
+      }
     } catch (err) {
       setError(err?.response?.data?.message || 'Registration failed')
     } finally {
@@ -185,8 +203,13 @@ const FoodPartnerLogin = () => {
     }
     try {
       setLoading(true)
-      await api.post('/api/auth/foodpartner/login', form)
-      navigate('/user/login') // adjust as needed, or route to partner dashboard
+      const res = await api.post('/api/auth/foodpartner/login', form)
+      if (res.data?.token) {
+        localStorage.setItem('token', res.data.token)
+        navigate('/foodPartner/create')
+      } else {
+        setError('Login failed')
+      }
     } catch (err) {
       setError(err?.response?.data?.message || 'Login failed')
     } finally {
@@ -224,6 +247,8 @@ const AppRoutes = () => {
         <Route path="/user/login" element={<UserLogin />} />
         <Route path="/foodPartner/register" element={<FoodPartnerRegister />} />
         <Route path="/foodPartner/login" element={<FoodPartnerLogin />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/foodPartner/create" element={<CreateFood />} />
       </Routes>
     </Router>
   )
